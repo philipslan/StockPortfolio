@@ -24,7 +24,7 @@
       <div class="header clearfix">
         <nav>
           <ul class="nav navbar-nav navbar-right">
-            <li><h5>Welcome, tinashin17! </h5></li>
+            <li class="welcome"><h5>Welcome, tinashin17!</h5></li>
             <li><button class="btn btn-success" >Sign Out</button></li>
           </ul>
 
@@ -37,11 +37,11 @@
 
           <div class="col-md-3">
             <br><br>
-              <ul class="nav nav-pills nav-stacked">
-                  <li class="active"><a href="#">Overview</a></li>
-                  <li><a href="#">Performance</a></li>
-                  <li><a href="#">Transaction</a></li>
-                  <li><a href="#">Strategy</a></li>
+              <ul id="pillTabs" class="nav nav-pills nav-stacked" role="tablist">
+                  <li class="active"><a href="#overview" role="tab" data-toggle="tab">Overview</a></li>
+                  <li><a href="#performance" role="tab" data-toggle="tab">Performance</a></li>
+                  <li><a href="#transaction" role="tab" data-toggle="tab">Transaction</a></li>
+                  <li><a href="#strategy" role="tab" data-toggle="tab">Strategy</a></li>
               </ul>
           </div>
 
@@ -53,9 +53,24 @@
               </ul>
 
               <div class="tab-content folder">
-                <div role="tabpanel" class="tab-pane fade in active" id="portfolio1">Info 1</div>
-                <div role="tabpanel" class="tab-pane fade" id="portfolio2">Info 2</div>
-                <div role="tabpanel" class="tab-pane fade" id="add">Add</div>
+                <div role="tabpanel" class="tab-pane fade in active" id="portfolio1">
+                  <div role='tabpanel' class='tab-pane fade' id='overview'>1</div>
+                  <div role='tabpanel' class='tab-pane fade' id='performance'>2</div>
+                  <div role='tabpanel' class='tab-pane fade' id='transaction'>3</div>
+                  <div role='tabpanel' class='tab-pane fade' id='strategy'>4</div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="portfolio2">
+                  <div role='tabpanel' class='tab-pane fade' id='overview'>1</div>
+                  <div role='tabpanel' class='tab-pane fade' id='performance'>2</div>
+                  <div role='tabpanel' class='tab-pane fade' id='transaction'>3</div>
+                  <div role='tabpanel' class='tab-pane fade' id='strategy'>4</div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="add">
+                  <div role='tabpanel' class='tab-pane fade' id='overview'>1</div>
+                  <div role='tabpanel' class='tab-pane fade' id='performance'>2</div>
+                  <div role='tabpanel' class='tab-pane fade' id='transaction'>3</div>
+                  <div role='tabpanel' class='tab-pane fade' id='strategy'>4</div>
+                </div>
               </div>
           </div>
 

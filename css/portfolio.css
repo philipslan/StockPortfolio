@@ -83,3 +83,8 @@ body {
 .folder {
   border-left: 1px solid #ddd;
   padding-bottom: 200px;
+}
+
+.welcome {
+	padding-right: 10px;
+}
