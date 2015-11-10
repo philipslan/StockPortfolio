@@ -38,9 +38,9 @@
           <div class="col-md-3">
             <br><br>
               <ul id="pillTabs" class="nav nav-pills nav-stacked" role="tablist">
-                  <li class="active"><a href="#overview" role="tab">Overview</a></li>
+                  <li><a href="overview.html" role="tab">Overview</a></li>
                   <li><a href="performance.html" role="tab">Performance</a></li>
-                  <li><a href="transaction.html" role="tab">Transaction</a></li>
+                  <li class="active"><a href="#transaction" role="tab">Transaction</a></li>
                   <li><a href="strategy.html" role="tab">Strategy</a></li>
               </ul>
           </div>
@@ -52,31 +52,67 @@
                 <li role="presentation"><a href="#add" role="tab" data-toggle="tab">Add Portfolio</a></li>
               </ul>
 
-              <!-- Overview in Portfolio1 -->
 
               <div class="tab-content folder">
                 <div role="tabpanel" class="tab-pane fade in active" id="portfolio1">
 
-                  <div role='tabpanel' class='tab-pane fade in active' id='overview'>
-                    <h5>Cash Balance:</h5>
-                    <h5>Holdings:</h5>
-                    <table class="table table-hover">
+              <!-- Transaction in Portfolio1 -->
+
+                  <div role='tabpanel' class='tab-pane fade in active' id='transaction'>
+                    <h4>Buy</h4>
+                      <form class="form-inline">
+                        <div class="form-group">
+                          <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Symbol">
+                        </div>
+                        <div class="form-group">
+                          <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Amount">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                      </form>
+
+                    <h4>Sell</h4>
+                      <form class="form-inline">
+                        <div class="form-group">
+                          <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Symbol">
+                        </div>
+                        <div class="form-group">
+                          <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Amount">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                      </form>
+
+                    <h4>Cash</h4>
+                      <form class="form-inline">
+                        <div class="form-group">
+                          <div class="input-group">
+                            <div class="input-group-addon">$</div>
+                            <input type="text" class="form-control" id="exampleInputAmount" placeholder="Amount">
+                            <div class="input-group-addon">.00</div>
+                          </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Deposit</button>
+                        <button type="submit" class="btn btn-primary">Withdraw</button>
+                      </form>
+                      <br>
+                      <h4>Transaction History</h4>
+                      <table class="table table-hover">
                       <tr>
                         <th>#</th>
                         <th>Name</th>
                         <th>Symbol</th>
-                        <th>Present Value</th>
+                        <th>Type</th>
                         <th>Shares</th>
+                        <th>Value</th>
                       </tr>
                       <tr>
                         <td>1</td>
-                        <td>Apple</td>
-                        <td>AAPL</td>
-                        <td>94.95</td>
-                        <td>100</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Deposit</td>
+                        <td>-</td>
+                        <td>$2,240</td>
                       </tr>
                     </table>
-                    <br>
                   </div>
 
                 </div>
