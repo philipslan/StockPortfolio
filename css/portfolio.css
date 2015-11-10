@@ -94,3 +94,7 @@ body {
 #pillTabs {
 	margin-right: -25px;
 }
+
+.clickable {
+	cursor: pointer;
+}
