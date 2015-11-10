@@ -56,8 +56,8 @@
 
               <div class="tab-content folder">
                 <div role="tabpanel" class="tab-pane fade in active" id="portfolio1">
+
                   <div role='tabpanel' class='tab-pane fade in active' id='overview'>
-                    
                     <h5>Cash Balance:</h5>
                     <h5>Holdings:</h5>
                     <table class="table table-hover">
@@ -67,7 +67,6 @@
                         <th>Symbol</th>
                         <th>Present Value</th>
                         <th>Shares</th>
-                        <th>
                       </tr>
                       <tr>
                         <td>1</td>
@@ -78,23 +77,95 @@
                       </tr>
                     </table>
                     <br>
-
                   </div>
-                  <div role='tabpanel' class='tab-pane fade' id='performance'>2</div>
-                  <div role='tabpanel' class='tab-pane fade' id='transaction'>3</div>
-                  <div role='tabpanel' class='tab-pane fade' id='strategy'>4</div>
+
+                  <div role='tabpanel' class='tab-pane fade in' id='performance'>2</div>
+
+              <!-- Transaction in Portfolio1 -->
+
+                  <div role='tabpanel' class='tab-pane fade in' id='transaction'>
+                    <h4>Buy</h4>
+                      <form class="form-inline">
+                        <div class="form-group">
+                          <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Symbol">
+                        </div>
+                        <div class="form-group">
+                          <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Amount">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                      </form>
+
+                    <h4>Sell</h4>
+                      <form class="form-inline">
+                        <div class="form-group">
+                          <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Symbol">
+                        </div>
+                        <div class="form-group">
+                          <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Amount">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                      </form>
+
+                    <h4>Cash</h4>
+                      <form class="form-inline">
+                        <div class="form-group">
+                          <div class="input-group">
+                            <div class="input-group-addon">$</div>
+                            <input type="text" class="form-control" id="exampleInputAmount" placeholder="Amount">
+                            <div class="input-group-addon">.00</div>
+                          </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Deposit</button>
+                        <button type="submit" class="btn btn-primary">Withdraw</button>
+                      </form>
+                      <br>
+                      <h4>Transaction History</h4>
+                      <table class="table table-hover">
+                      <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Symbol</th>
+                        <th>Type</th>
+                        <th>Shares</th>
+                        <th>Value</th>
+                      </tr>
+                      <tr>
+                        <td>1</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Deposit</td>
+                        <td>-</td>
+                        <td>$2,240</td>
+                      </tr>
+                    </table>
+                  </div>
+
+                  <div role='tabpanel' class='tab-pane fade in' id='strategy'>
+                    <h4>Trading Strategy</h4>
+                    <form class='form-inline'>
+                    <select class="form-control" style="width:300px">
+                      <option>Shannon Ratchet</option>
+                      <option>Strategy 2</option>
+                      <option>Strategy 3</option>
+                      <option>Strategy 4</option>
+                      <option>Strategy 5</option>
+                    </select>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+                  </div>
+
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="portfolio2">
-                  <div role='tabpanel' class='tab-pane fade' id='overview'>5</div>
-                  <div role='tabpanel' class='tab-pane fade' id='performance'>6</div>
-                  <div role='tabpanel' class='tab-pane fade' id='transaction'>7</div>
-                  <div role='tabpanel' class='tab-pane fade' id='strategy'>8</div>
+                <div role="tabpanel" class="tab-pane fade in" id="portfolio2">
+                  <div role='tabpanel' class='tab-pane fade in' id='overview'>5</div>
+                  <div role='tabpanel' class='tab-pane fade in' id='performance'>6</div>
+                  <div role='tabpanel' class='tab-pane fade in' id='transaction'>7</div>
+                  <div role='tabpanel' class='tab-pane fade in' id='strategy'>8</div>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="add">
-                  <div role='tabpanel' class='tab-pane fade' id='overview'>9</div>
-                  <div role='tabpanel' class='tab-pane fade' id='performance'>10</div>
-                  <div role='tabpanel' class='tab-pane fade' id='transaction'>11</div>
-                  <div role='tabpanel' class='tab-pane fade' id='strategy'>12</div>
+                <div role="tabpanel" class="tab-pane fade in" id="add">
+                  <div role='tabpanel' class='tab-pane fade in' id='overview'>9</div>
+                  <div role='tabpanel' class='tab-pane fade in' id='performance'>10</div>
+                  <div role='tabpanel' class='tab-pane fade in' id='transaction'>11</div>
+                  <div role='tabpanel' class='tab-pane fade in' id='strategy'>12</div>
                 </div>
               </div>
           </div>
