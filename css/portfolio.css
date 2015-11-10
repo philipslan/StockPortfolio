@@ -83,8 +83,14 @@ body {
 .folder {
   border-left: 1px solid #ddd;
   padding-bottom: 200px;
+  margin-top: -10px;
+  padding-top: 10px;
 }
 
 .welcome {
 	padding-right: 10px;
+}
+
+#pillTabs {
+	margin-right: -25px;
 }
