@@ -77,3 +77,10 @@ body {
     border-bottom: 0;
   }
 }
+
+/* End Jumbotron-narrow */
+
+.folder {
+  border-left: 1px solid #ddd;
+  padding-bottom: 200px;
+}
