@@ -1,35 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Portfolio Manager</title>
-	<link href="css/bootstrap.css" rel="stylesheet" media="screen">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-</head>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
 
-<body>
+    <title>Portfolio Manager</title>
 
-	<div class="jumbotron">
-	  <h1>Portfolio Manager</h1>
-	  <h4>Welcome!</h4>
-	  <h4>logout</h4>
+    <!-- CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="css/portfolio.css" rel="stylesheet">
 
-	  	<div class="container">
-			<ul id="myTab"class="nav nav-tabs">
-				<li class="active"><a href="#" data-toggle="tab">Portfolio 1</a></li>
-				<li><a href="#">Portfolio 2</a></li>
-				<li><a href="#">Add Portfolio</a></li>
-			</ul>
+    <!-- Javascript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="js/portfolio.js"></script>
+  </head>
 
-			<ul class="nav nav-pills nav-stacked">
-			  	<li class="active"><a href="#">Overview</a></li>
-			  	<li><a href="#">Performance</a></li>
-			  	<li><a href="#">Transaction</a></li>
-			  	<li><a href="#">Strategy</a></li>
-			</ul>
-		</div>
+  <body>
 
-</body>
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav navbar-nav navbar-right">
+            <li><h5>Welcome, tinashin17! </h5></li>
+            <li><button class="btn btn-success" >Sign Out</button></li>
+          </ul>
 
+        </nav>
+        <h5 class="text-muted">EECS339: Portfolio Manager</h5>
+      </div>
+
+      <div class="container">
+        <div class='row'>
+
+          <div class="col-md-3">
+            <br><br>
+              <ul class="nav nav-pills nav-stacked">
+                  <li class="active"><a href="#">Overview</a></li>
+                  <li><a href="#">Performance</a></li>
+                  <li><a href="#">Transaction</a></li>
+                  <li><a href="#">Strategy</a></li>
+              </ul>
+          </div>
+
+          <div class="col-md-9">
+              <ul id="myTabs"class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#portfolio1" data-toggle="tab">Portfolio 1</a></li>
+                <li role="presentation"><a href="#portfolio2">Portfolio 2</a></li>
+                <li role="presentation"><a href="#add">Add Portfolio</a></li>
+              </ul>
+
+              <div class="tab-content folder">
+                <div role="tabpanel" class="tab-pane fade in active" id="portfolio1">Info 1</div>
+                <div role="tabpanel" class="tab-pane fade" id="portfolio2">Info 2</div>
+                <div role="tabpanel" class="tab-pane fade" id="add">Add</div>
+              </div>
+          </div>
+
+        </div>
+      </div>
+           
+
+
+      <footer class="footer">
+        <p>&copy;Philip Lan, Tina Shin</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+  </body>
 </html>
