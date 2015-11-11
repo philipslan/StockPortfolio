@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="portfolio">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Portfolio</title>
+
+  <!-- CSS Files -->
+  <link href="index/bootstrap.min.css" rel='stylesheet' type='text/css'>
+  <link href="index/style.css" rel='stylesheet' type='text/css'>
+  <link href="index/jumbotron-narrow.css" rel='stylesheet' type='text/css'>
+
+  <!-- Javascript Files -->
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+
+  <!-- Angular -->
+  <script src="/js/angular.min.js"></script>
+  <script src="/js/angular-cookies.js"></script>
+  <script src='/js/module.js'></script>
+
+  <!-- Angular Components -->
+  <script src="/index/mainController.js"></script>
+  <script src="/overview/overviewController.js"></script>
+
+</head>
+<body ng-controller="mainController">
+  <div class="container">
+    <div class="header clearfix">
+      <nav>
+        <form class="navbar-form navbar-right">
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#login" ng-hide="login_success">Log In</button>
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#register" ng-hide="login_success">Register</button>
+          <button type="button" class="btn btn-success" ng-if="login_success" ng-click="logout()">Log Out</button>
+        </form>
+      </nav>
+      <h5 class="text-muted">EECS339: Portfolio Manager</h5>
+    </div>
+
+    <div class="jumbotron">
+      <h1>Welcome to Portfolio Manager!</h1>
+      <p class="lead">Here you will find a stock portfolio manager system built by Philip and Tina. Below are the relevant diagrams and SQL queries used in creating this application. Thanks for visiting.</p>
+      <p ng-if="login_success"><a class="btn btn-lg btn-success" href="overview.html" role="button">Go to Portfolio Manager</a></p>
+    </div>
+
+    <div class="row marketing">
+      <div class="col-lg-6">
+        <h4>Storyboard</h4>
+        <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+        <p><a class="btn btn-default" href="#" role="button">View details</a></p>
+
+        <h4>Flowchart</h4>
+        <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+        <p><a class="btn btn-default" href="#" role="button">View details</a></p>
+
+        <h4>ER Diagram</h4>
+        <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+        <p><a class="btn btn-default" href="#" role="button">View details</a></p>
+
+      </div>
+
+      <div class="col-lg-6">
+        <h4>Relational Design</h4>
+        <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+        <p><a class="btn btn-default" href="#" role="button">View details</a></p>
+
+        <h4>SQL DDL</h4>
+        <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+        <p><a class="btn btn-default" href="#" role="button">View details</a></p>
+
+
+        <h4>SQL DML and DQL</h4>
+        <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+        <p><a class="btn btn-default" href="#" role="button">View details</a></p>
+
+      </div>
+    </div>
+
+    <!-- Sign in Modal -->
+    <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Log In</h4>
+          </div>
+          <form>
+            <div class="modal-body">
+              <div class="form-group">
+                <label class="control-label">Username:</label>
+                <input type="text" class="form-control" ng-model="lusername">
+              </div>
+              <div class="form-group">
+                <label class="control-label">Password:</label>
+                <input type="password" class="form-control" ng-model="lpassword">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-success" ng-click="login()">Log In</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Register Modal -->
+    <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="exampleModalLabel">Register</h4>
+          </div>
+          <form>
+            <div class="modal-body">
+              <div class="form-group">
+                <label class="control-label">Username:</label>
+                <input type="text" class="form-control" ng-model="rusername">
+              </div>
+              <div class="form-group">
+                <label class="control-label">Email:</label>
+                <input type="email" class="form-control" ng-model="remail">
+              </div>
+              <div class="form-group">
+                <label class="control-label">Password:</label>
+                <input type="password" class="form-control" ng-model="rpassword">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-success" ng-click="register()">Register</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <p>&copy;Philip Lan, Tina Shin</p>
+    </footer>
+  </div> <!-- /container -->
+</body>
+</html>

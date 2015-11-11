@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="portfolio">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Portfolio</title>
+
+  <!-- CSS Files -->
+  <link href="index/bootstrap.min.css" rel='stylesheet' type='text/css'>
+  <link href="index/style.css" rel='stylesheet' type='text/css'>
+  <link href="index/jumbotron-narrow.css" rel='stylesheet' type='text/css'>
+
+  <!-- Javascript Files -->
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+
+  <!-- Angular -->
+  <script src="/js/angular.min.js"></script>
+  <script src="/js/angular-cookies.js"></script>
+  <script src='/js/module.js'></script>
+
+  <!-- Angular Components -->
+  <script src="/index/mainController.js"></script>
+  <script src="/overview/overviewController.js"></script>
+
+</head>
+<body ng-controller="mainController">
+  <div class="container">
+    <div class="header clearfix">
+      <nav>
+        <form class="navbar-form navbar-right">
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#login" ng-hide="login_success">Log In</button>
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#register" ng-hide="login_success">Register</button>
+          <button type="button" class="btn btn-success" ng-if="login_success" ng-click="logout()">Log Out</button>
+        </form>
+      </nav>
+      <h5 class="text-muted">EECS339: Portfolio Manager</h5>
+    </div>
+    <footer class="footer">
+      <p>&copy;Philip Lan, Tina Shin</p>
+    </footer>
+  </div> <!-- /container -->
+</body>
+</html>
