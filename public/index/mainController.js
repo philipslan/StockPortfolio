@@ -17,6 +17,7 @@ app.controller('mainController', function($scope,$http,$cookies) {
 				$('#login').modal('hide')
 				alert("Login Successful");
 				$cookies.put("login", "true");
+				$cookies.put("user", req.username);
 			} else {
 				$scope.lpassword = "";
 				alert("Login credentials are not correct");
@@ -45,6 +46,7 @@ app.controller('mainController', function($scope,$http,$cookies) {
 	}
 	$scope.logout = function () {
 		$cookies.remove("login");
+		$cookies.remove("user");
 		$scope.login_success = false;
 	}
 	if ($cookies.get("login") == "true") {

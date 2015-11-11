@@ -25,17 +25,106 @@
   <script src="/overview/overviewController.js"></script>
 
 </head>
-<body ng-controller="mainController">
+<body ng-controller="overviewController">
   <div class="container">
     <div class="header clearfix">
       <nav>
-        <form class="navbar-form navbar-right">
-          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#login" ng-hide="login_success">Log In</button>
-          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#register" ng-hide="login_success">Register</button>
-          <button type="button" class="btn btn-success" ng-if="login_success" ng-click="logout()">Log Out</button>
-        </form>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="welcome"><h5>Welcome, {{user}}!</h5></li>
+          <li><button class="btn btn-success" ng-click="logout()">Logout</button></li>
+        </ul>
+
       </nav>
-      <h5 class="text-muted">EECS339: Portfolio Manager</h5>
+      <h4 class="text-muted"><a href="/">EECS339: Portfolio Manager</a></h4>
+    </div>
+    
+    <div class="container">
+      <div class='row' ng-if="portfolios.length">
+
+        <div class="col-md-3">
+          <br><br>
+            <ul id="pillTabs" class="nav nav-pills nav-stacked" role="tablist">
+                <li class="active"><a href="#overview" role="tab">Overview</a></li>
+                <li><a href="performance.html" role="tab">Performance</a></li>
+                <li><a href="transaction.html" role="tab">Transaction</a></li>
+                <li><a href="strategy.html" role="tab">Strategy</a></li>
+            </ul>
+        </div>
+
+        <div class="col-md-9">
+            <ul id="myTabs"class="nav nav-tabs" role="tablist">
+              <li ng-repeat="portfolio in portfolios" 
+                ng-class="{active: {{$index}} == 0}">
+                <a href="#portfolio{{$index}}" role="tab" data-toggle="tab" ng-click="act($index)">{{portfolio[1]}}</a>
+              </li>
+              <li role="presentation">
+                <a data-toggle="modal" data-target="#portfolio" role="tab" data-toggle="tab" class="clickable">Add Portfolio</a>
+              </li>
+            </ul>
+
+            <!-- Overview in Portfolio1 -->
+
+            <div class="tab-content folder" ng-repeat="portfolio in portfolios" ng-if="index == $index">
+              <div role="tabpanel" class="tab-pane active" id="#portfolio{{$index}}">
+
+                <div role='tabpanel' class='tab-pane' id='overview'>
+                  <h5>Cash Balance: {{portfolio[2] | currency}}</h5>
+                  <h5>Holdings:</h5>
+                  <table class="table table-hover">
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Symbol</th>
+                      <th>Present Value</th>
+                      <th>Shares</th>
+                    </tr>
+                    <tr class='clickable' data-href='stock.html'>
+                      <td>1</td>
+                      <td>Apple</td>
+                      <td>AAPL</td>
+                      <td>94.95</td>
+                      <td>100</td>
+                    </tr>
+                  </table>
+                  <br>
+                </div>
+
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="row" ng-if="!portfolios.length">
+        <a data-toggle="modal" data-target="#portfolio" class="clickable">Create a new Portfolio</a>
+        <br/>
+        <a href="/">Home</a>
+      </div>
+    </div>
+    <!-- Create New Portfolio -->
+    <div class="modal fade" id="portfolio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="exampleModalLabel">Create Portfolio</h4>
+          </div>
+          <form>
+            <div class="modal-body">
+              <div class="form-group">
+                <label class="control-label">Name:</label>
+                <input type="text" class="form-control" ng-model="pname">
+              </div>
+              <div class="form-group">
+                <label class="control-label">Cash Amount:</label>
+                <input type="number" min="0.01" step="0.01" class="form-control" ng-model="p_cash_amnt">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-success" ng-click="create_new(pname,p_cash_amnt)">Create</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
     <footer class="footer">
       <p>&copy;Philip Lan, Tina Shin</p>
