@@ -37,7 +37,7 @@ app.controller('overviewController', function($scope, $cookies, $http) {
 		get_portfolio_holdings($scope.portfolios[index][0]);
 	}
 	$scope.quote = function (symbol) {
-		$http.get("http://www.google.com/finance/info?q="+symbol)
+		$http.post("/stocks",{stock:symbol})
 		.then(function(data){
 			var temp = data.data.split("/")
 			temp = JSON.parse(temp[2]);
@@ -214,10 +214,53 @@ app.controller('overviewController', function($scope, $cookies, $http) {
 		$http.post("/proxy",req)
 		.then(function(data){
 			$scope.stock_table = data.data;
-		})
+			var x = [];
+			var y = [];
+			$scope.stock_table.forEach(function(data){
+				x.push(new Date(data[1]*1000));
+				y.push(data[5]);
+			});
+			var trace1 = {
+			  x: x,
+			  y: y,
+			  type: 'scatter'
+			};
+			var data = [trace1];
+			Plotly.newPlot('myChart', data);
+		});
 	}
 	$scope.default_view = function () {
 		$scope.stock_view = false;
+	}
+	$scope.predict = function () {
+		if ($scope.stock_table.length > 5){
+			table = $scope.stock_table;
+			var result = table.map(function(data){
+				return [(new Date(data[1]*1000)),data[5]]
+			});
+			$http.post("/predict",{data: result})
+			.then(function(data){
+				$scope.predicted_value = data.data.forecast;
+				var table = data.data.data;
+				var x = [];
+				var y = [];
+				table.forEach(function(data){
+					x.push(new Date(data[0]));
+					y.push(data[1]);
+				})
+				x.unshift(new Date( (new Date()).setDate((new Date()).getDate()+1)));
+				y.unshift($scope.predicted_value);
+				var trace1 = {
+				  x: x,
+				  y: y,
+				  type: 'scatter'
+				};
+				var plotting = [trace1];
+				Plotly.newPlot('myChart', plotting);
+			})
+		} else {
+			alert('Need more inputs');
+		}
 	}
 	function get_user_portfolios () {
 		var req = {
@@ -239,7 +282,10 @@ app.controller('overviewController', function($scope, $cookies, $http) {
 		.then(function(data){
 			$scope.holdings = data.data;
 			$scope.holdings.forEach(function(item){
-				$http.get("http://www.google.com/finance/info?q="+item[1])
+				var req1 = {
+					stock: item[1]
+				}
+				$http.post("/stocks",req1)
 				.then(function(data){
 					$scope.holdings.forEach(function(second){
 						if (second[1] == item[1]) {

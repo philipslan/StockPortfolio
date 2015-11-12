@@ -194,7 +194,11 @@
         <a href="/">Home</a>
       </div>
       <div ng-show="stock_view">
-        <button class="btn btn-success" ng-click="default_view()">Back</button>
+        <form class="form-inline">
+          <button class="btn btn-success" ng-click="default_view()">Back</button>
+          <button class="btn btn-primary" ng-click="predict()">Predict</button>
+          <h5 ng-if="predicted_value">Predicted closing value: {{predicted_value | currency}}</h5>
+        </form>
         <hr/>
         <form class='form-inline'>
           <div class="form-group">
