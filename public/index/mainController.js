@@ -14,7 +14,7 @@ app.controller('mainController', function($scope,$http,$cookies) {
 				$scope.lusername = "";
 				$scope.lpassword = "";
 				$scope.login_success = true;
-				$('#login').modal('hide')
+				$('#login').modal('hide');
 				alert("Login Successful");
 				$cookies.put("login", "true");
 				$cookies.put("user", req.username);

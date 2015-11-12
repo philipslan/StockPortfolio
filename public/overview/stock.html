@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="portfolio">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Portfolio</title>
+
+  <!-- CSS Files -->
+  <link href="index/bootstrap.min.css" rel='stylesheet' type='text/css'>
+  <link href="index/style.css" rel='stylesheet' type='text/css'>
+  <link href="index/jumbotron-narrow.css" rel='stylesheet' type='text/css'>
+
+  <!-- Javascript Files -->
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+
+  <!-- Angular -->
+  <script src="/js/angular.min.js"></script>
+  <script src="/js/angular-cookies.js"></script>
+  <script src='/js/module.js'></script>
+
+  <!-- Angular Components -->
+  <script src="/index/mainController.js"></script>
+  <script src="/overview/overviewController.js"></script>
+
+</head>
+<body ng-controller="overviewController">
+  <div class="container">
+    <div class="header clearfix">
+      <nav>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="welcome"><h5>Welcome, {{user}}!</h5></li>
+          <li><button class="btn btn-success" ng-click="logout()">Logout</button></li>
+        </ul>
+
+      </nav>
+      <h4 class="text-muted"><a href="/">Portfolio Manager Home</a></h4>
+    </div>
+    
+    <div class="container">
+    </div>
+    
+    <footer class="footer">
+      <p>&copy;Philip Lan, Tina Shin</p>
+    </footer>
+  </div> <!-- /container -->
+</body>
+</html>

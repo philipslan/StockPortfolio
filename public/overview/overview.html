@@ -47,92 +47,156 @@
                 <li ng-class="{active: view=='overview'}">
                   <a ng-click="view='overview'" class='clickable' role="tab">Overview</a>
                 </li>
-                <li>
-                  <a href="performance.html" role="tab"class='clickable'>Performance</a>
+                <li ng-class="{active: view=='performance'}">
+                  <a ng-click="view='performance'" class='clickable' role="tab">Performance</a>
                 </li>
                 <li ng-class="{active: view=='transaction'}">
                   <a ng-click="view='transaction'" class='clickable' role="tab">Transaction</a>
                 </li>
-                <li><a href="strategy.html" role="tab">Strategy</a></li>
+                <li ng-class="{active: view=='strategy'}">
+                  <a ng-click="view='strategy'" class='clickable' role="tab">Strategy</a>
+                </li>
+                <li ng-class="{active: view=='update_stock'}">
+                  <a ng-click="view='update_stock'" class='clickable' role="tab">Update Stock</a>
+                </li>
             </ul>
         </div>
 
         <div class="col-md-9">
-            <ul id="myTabs"class="nav nav-tabs" role="tablist">
-              <li ng-repeat="portfolio in portfolios" 
-                ng-class="{active: {{$index}} == 0}">
-                <a href="#portfolio{{$index}}" role="tab" data-toggle="tab" ng-click="act($index)">{{portfolio[1]}}</a>
-              </li>
-              <li role="presentation">
-                <a data-toggle="modal" data-target="#portfolio" role="tab" data-toggle="tab" class="clickable">Add Portfolio</a>
-              </li>
-            </ul>
+          <ul id="myTabs"class="nav nav-tabs" role="tablist">
+            <li ng-repeat="portfolio in portfolios" 
+              ng-class="{active: {{$index}} == 0}">
+              <a href="#portfolio{{$index}}" role="tab" data-toggle="tab" ng-click="act($index)">{{portfolio[1]}}</a>
+            </li>
+            <li role="presentation">
+              <a data-toggle="modal" data-target="#portfolio" role="tab" data-toggle="tab" class="clickable">Add Portfolio</a>
+            </li>
+          </ul>
 
-            <div class="tab-content folder" ng-repeat="portfolio in portfolios" ng-if="index == $index">
-              <div role="tabpanel" class="tab-pane active" id="#portfolio{{$index}}">
+          <div class="tab-content folder" ng-repeat="portfolio in portfolios" ng-if="index == $index">
+            <div role="tabpanel" class="tab-pane active" id="#portfolio{{$index}}">
 
-                <div role='tabpanel' class='tab-pane' id='overview' ng-if="view=='overview'">
-                  <h5>Cash Balance: {{portfolio[2] | currency}}</h5>
-                  <h5>Holdings:</h5>
-                  <table class="table table-hover" ng-repeat="holding in holdings" ng-if="holdings.length">
-                    <tr>
-                      <th>#</th>
-                      <th>Name</th>
-                      <th>Symbol</th>
-                      <th>Present Value</th>
-                      <th>Shares</th>
-                    </tr>
-                    <tr class='clickable' data-href='stock.html'>
-                      <td>1</td>
-                      <td>Apple</td>
-                      <td>AAPL</td>
-                      <td>94.95</td>
-                      <td>100</td>
-                    </tr>
-                  </table>
-                  <h5 ng-if="!holdings.length">No current Holdings. Go to transaction to purchase holding.</h5>
-                  <br>
-                </div>
+              <div role='tabpanel' class='tab-pane' id='overview' ng-if="view=='overview'">
+                <h5>Cash Balance: {{portfolio[2] | currency}}</h5>
+                <h5>Holdings:</h5>
+                <table class="table table-hover" ng-if="holdings.length">
+                  <tr>
+                    <th>#</th>
+                    <th>Symbol</th>
+                    <th>Present Value</th>
+                    <th>Shares</th>
+                  </tr>
+                  <tr class='clickable' ng-repeat="holding in holdings" ng-click="view='stock'">
+                    <td>{{$index+1}}</td>
+                    <td><a>{{holding[1]}}</a></td>
+                    <td>{{holding[4] | currency}}</td>
+                    <td>{{holding[3]}}</td>
+                  </tr>
+                </table>
+                <h5 ng-if="!holdings.length">No current Holdings. Go to transaction to purchase holding.</h5>
+                <br>
+              </div>
 
-                <div role='tabpanel' class='tab-pane' id='transaction' ng-if="view=='transaction'">
-                  <h5>Cash Balance: {{portfolio[2] | currency}}</h5>
-                  <h4>Buy</h4>
-                  <form class="form-inline">
-                    <div class="form-group">
-                      <input type="text" class="form-control" id="buySymbol" placeholder="Symbol">
-                    </div>
-                    <div class="form-group">
-                      <input type="text" class="form-control" id="buyAmount" placeholder="Amount">
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-                  </form>
+              <div role='tabpanel' class='tab-pane' id='transaction' ng-if="view=='transaction'">
+                <h5>Cash Balance: {{portfolio[2] | currency}}</h5>
+                <h5>Market Price: {{market | currency}}</h5>
+                <h5>Quantity of Stock: {{quantity}}</h5>
+                <hr/>
+                <h4>Stock</h4>
+                <form class="form-inline">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="buySymbol" placeholder="Symbol" ng-model="symbol" ng-change="quote(symbol);get_quantity(portfolio[0],symbol);" ng-blur="quote(symbol);get_quantity(portfolio[0],symbol);">
+                  </div>
+                </form>
+                <h4>Buy</h4>
+                <h5>Cost: {{buy_amount * market | currency}}</h5>
+                <form class="form-inline">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="buyAmount" placeholder="Amount" ng-model="buy_amount">
+                  </div>
+                  <button type="submit" class="btn btn-default" ng-click="buy_stock(buy_amount, market, portfolio[0], symbol)">Buy</button>
+                </form>
 
-                  <h4>Sell</h4>
-                  <form class="form-inline">
-                    <div class="form-group">
-                      <input type="text" class="form-control" id="sellSymbol" placeholder="Symbol">
-                    </div>
-                    <div class="form-group">
-                      <input type="text" class="form-control" id="sellAmount" placeholder="Amount">
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-                  </form>
+                <h4>Sell</h4>
+                <h5>Revenue: {{sell_amount * market | currency}}</h5>
+                <form class="form-inline">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="sellAmount" placeholder="Amount" ng-model="sell_amount">
+                  </div>
+                  <button type="submit" class="btn btn-default" ng-if="sell_amount <= quantity" ng-click="sell_stock(sell_amount, market, portfolio[0], symbol)">Sell</button>
+                </form>
+                <hr/>
 
-                  <h4>Cash</h4>
-                  <form class="form-inline">
-                    <div class="form-group">
-                      <div class="input-group">
-                        <div class="input-group-addon">$</div>
-                        <input type="number" ng-model="cash_update" class="form-control" id="cashAmount" placeholder="Amount" min="0.01" step="0.01">
-                      </div>
+                <h4>Cash</h4>
+                <form class="form-inline">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="input-group-addon">$</div>
+                      <input type="number" ng-model="cash_update" class="form-control" id="cashAmount" placeholder="Amount" min="0.01" step="0.01">
                     </div>
-                    <button type="submit" class="btn btn-primary" ng-click="deposit(portfolio[0],cash_update)">Deposit</button>
-                    <button type="submit" class="btn btn-primary" ng-click="withdraw(portfolio[0],cash_update)">Withdraw</button>
-                  </form>
+                  </div>
+                  <button type="submit" class="btn btn-primary" ng-click="deposit(portfolio[0],cash_update)">Deposit</button>
+                  <button type="submit" class="btn btn-primary" ng-click="withdraw(portfolio[0],cash_update)">Withdraw</button>
+                </form>
+              </div>
+
+              <div role='tabpanel' class='tab-pane' id='update_stock' ng-if="view=='update_stock'">
+                <br/>
+                <h4>Update Stock Information</h4>
+                <h5>Market Price: {{market | currency}}</h5>
+                <hr/>
+                <form>
+                  <div class="form-group">
+                    <label>Symbol</label>
+                    <input type="text" class="form-control" placeholder="Symbol" ng-model="ssymbol" ng-change="quote(ssymbol)" ng-blur="quote(ssymbol)">
+                  </div>
+                  <div class="form-group">
+                    <label>Open</label>
+                    <input type="number" min="0.01" step="0.01" class="form-control" placeholder="Open" ng-model="sopen">
+                  </div>
+                  <div class="form-group">
+                    <label>High</label>
+                    <input type="number" min="0.01" step="0.01" class="form-control" placeholder="High" ng-model="shigh">
+                  </div>
+                  <div class="form-group">
+                    <label>Low</label>
+                    <input type="number" min="0.01" step="0.01" class="form-control" placeholder="Low" ng-model="slow">
+                  </div>
+                  <div class="form-group">
+                    <label>Close</label>
+                    <input type="number" min="0.01" step="0.01" class="form-control" placeholder="Close" ng-model="sclose">
+                  </div>
+                  <div class="form-group">
+                    <label>Volume</label>
+                    <input type="number" class="form-control" placeholder="Volume" ng-model="svolume">
+                  </div>
+                  <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" class="form-control" placeholder="Date" ng-model="sdate">
+                    <br/>
+                    <button type="submit" class="btn btn-primary" ng-click="ssubmit(ssymbol,sopen,shigh,slow,sclose,svolume,sdate)">Submit</button>
+                  </div>
+                </form>
+              </div>
+              <div role='tabpanel' class='tab-pane' id='stock' ng-if="view=='stock'">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h3>AAPL</h3><br>
+                    <h5>Present Market Value:</h5>
+                    <h5>High:</h5>
+                    <h5>Low:</h5>
+                    <h5>Open:</h5>
+                    <h5>Close:</h5>
+                    <h5>Volatility:</h5>
+                  </div>
+                  <div class="col-md-6">
+                    <h4>History</h4>
+                    <h4>Future</h4>
+                  </div>
                 </div>
               </div>
             </div>
-
+          </div>
         </div>
       </div>
       <div class="row" ng-if="!portfolios.length">
