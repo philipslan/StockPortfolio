@@ -3,6 +3,8 @@ var app = angular.module('overviewController', []);
 app.controller('overviewController', function($scope, $cookies, $http) {
 	// keeps track of which portfolio we're looking at
 	$scope.index = 0;
+	// default view is overiew
+	$scope.view = "overview";
 	// gets user
 	$scope.user = $cookies.get("user");
 	// gets all user portfolios
@@ -34,6 +36,28 @@ app.controller('overviewController', function($scope, $cookies, $http) {
 	$scope.act = function (index) {
 		$scope.index = index;
 	}
+	$scope.deposit = function (id, cash) {
+		var req = {
+			request: "deposit_portfolio_cash_amnt",
+			amnt: cash,
+			id: id
+		}
+		$http.post("/proxy",req)
+		.then(function(data){
+			get_user_portfolios();
+		})
+	}
+	$scope.withdraw = function (id, cash) {
+		var req = {
+			request: "withdraw_portfolio_cash_amnt",
+			amnt: cash,
+			id: id
+		}
+		$http.post("/proxy",req)
+		.then(function(data){
+			get_user_portfolios();
+		})
+	}
 	function get_user_portfolios () {
 		var req = {
 			request: "find_all_user_portfolios",
@@ -42,6 +66,16 @@ app.controller('overviewController', function($scope, $cookies, $http) {
 		$http.post("/proxy",req)
 		.then(function(data){
 			$scope.portfolios = data.data;
-		})
+		});
+	}
+	function get_portfolio_holdings (portfolio_id) {
+		var req = {
+			request: 'find_all_portfolio_holdings',
+			portfolio_id: portfolio_id
+		}
+		$http.post("/proxy",req)
+		.then(function(data){
+			$scope.holdings = data.data;
+		});
 	}
 });

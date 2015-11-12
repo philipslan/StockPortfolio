@@ -35,7 +35,7 @@
         </ul>
 
       </nav>
-      <h4 class="text-muted"><a href="/">EECS339: Portfolio Manager</a></h4>
+      <h4 class="text-muted"><a href="/">Portfolio Manager Home</a></h4>
     </div>
     
     <div class="container">
@@ -44,9 +44,15 @@
         <div class="col-md-3">
           <br><br>
             <ul id="pillTabs" class="nav nav-pills nav-stacked" role="tablist">
-                <li class="active"><a href="#overview" role="tab">Overview</a></li>
-                <li><a href="performance.html" role="tab">Performance</a></li>
-                <li><a href="transaction.html" role="tab">Transaction</a></li>
+                <li ng-class="{active: view=='overview'}">
+                  <a ng-click="view='overview'" class='clickable' role="tab">Overview</a>
+                </li>
+                <li>
+                  <a href="performance.html" role="tab"class='clickable'>Performance</a>
+                </li>
+                <li ng-class="{active: view=='transaction'}">
+                  <a ng-click="view='transaction'" class='clickable' role="tab">Transaction</a>
+                </li>
                 <li><a href="strategy.html" role="tab">Strategy</a></li>
             </ul>
         </div>
@@ -62,15 +68,13 @@
               </li>
             </ul>
 
-            <!-- Overview in Portfolio1 -->
-
             <div class="tab-content folder" ng-repeat="portfolio in portfolios" ng-if="index == $index">
               <div role="tabpanel" class="tab-pane active" id="#portfolio{{$index}}">
 
-                <div role='tabpanel' class='tab-pane' id='overview'>
+                <div role='tabpanel' class='tab-pane' id='overview' ng-if="view=='overview'">
                   <h5>Cash Balance: {{portfolio[2] | currency}}</h5>
                   <h5>Holdings:</h5>
-                  <table class="table table-hover">
+                  <table class="table table-hover" ng-repeat="holding in holdings" ng-if="holdings.length">
                     <tr>
                       <th>#</th>
                       <th>Name</th>
@@ -86,11 +90,49 @@
                       <td>100</td>
                     </tr>
                   </table>
+                  <h5 ng-if="!holdings.length">No current Holdings. Go to transaction to purchase holding.</h5>
                   <br>
                 </div>
 
+                <div role='tabpanel' class='tab-pane' id='transaction' ng-if="view=='transaction'">
+                  <h5>Cash Balance: {{portfolio[2] | currency}}</h5>
+                  <h4>Buy</h4>
+                  <form class="form-inline">
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="buySymbol" placeholder="Symbol">
+                    </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="buyAmount" placeholder="Amount">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                  </form>
+
+                  <h4>Sell</h4>
+                  <form class="form-inline">
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="sellSymbol" placeholder="Symbol">
+                    </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="sellAmount" placeholder="Amount">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                  </form>
+
+                  <h4>Cash</h4>
+                  <form class="form-inline">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        <input type="number" ng-model="cash_update" class="form-control" id="cashAmount" placeholder="Amount" min="0.01" step="0.01">
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" ng-click="deposit(portfolio[0],cash_update)">Deposit</button>
+                    <button type="submit" class="btn btn-primary" ng-click="withdraw(portfolio[0],cash_update)">Withdraw</button>
+                  </form>
+                </div>
               </div>
             </div>
+
         </div>
       </div>
       <div class="row" ng-if="!portfolios.length">
