@@ -14,6 +14,10 @@
   <!-- Javascript Files -->
   <script src="/js/jquery.js"></script>
   <script src="/js/bootstrap.min.js"></script>
+  <!-- D3.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+  <!-- Plotly.js -->
+  <script src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"></script>
 
   <!-- Angular -->
   <script src="/js/angular.min.js"></script>
@@ -39,7 +43,7 @@
     </div>
     
     <div class="container">
-      <div class='row' ng-if="portfolios.length">
+      <div class="row" ng-if="portfolios.length && !stock_view">
 
         <div class="col-md-3">
           <br><br>
@@ -77,16 +81,18 @@
             <div role="tabpanel" class="tab-pane active" id="#portfolio{{$index}}">
 
               <div role='tabpanel' class='tab-pane' id='overview' ng-if="view=='overview'">
+                <h4>Present Value: {{portfolio[2] + present_value | currency}}</h4>
+                <hr/>
                 <h5>Cash Balance: {{portfolio[2] | currency}}</h5>
                 <h5>Holdings:</h5>
                 <table class="table table-hover" ng-if="holdings.length">
                   <tr>
                     <th>#</th>
                     <th>Symbol</th>
-                    <th>Present Value</th>
+                    <th>Market Price</th>
                     <th>Shares</th>
                   </tr>
-                  <tr class='clickable' ng-repeat="holding in holdings" ng-click="view='stock'">
+                  <tr class='clickable' ng-repeat="holding in holdings" ng-click="show_stock(holding)">
                     <td>{{$index+1}}</td>
                     <td><a>{{holding[1]}}</a></td>
                     <td>{{holding[4] | currency}}</td>
@@ -178,31 +184,59 @@
                   </div>
                 </form>
               </div>
-              <div role='tabpanel' class='tab-pane' id='stock' ng-if="view=='stock'">
-                <div class="row">
-                  <div class="col-md-6">
-                    <h3>AAPL</h3><br>
-                    <h5>Present Market Value:</h5>
-                    <h5>High:</h5>
-                    <h5>Low:</h5>
-                    <h5>Open:</h5>
-                    <h5>Close:</h5>
-                    <h5>Volatility:</h5>
-                  </div>
-                  <div class="col-md-6">
-                    <h4>History</h4>
-                    <h4>Future</h4>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="row" ng-if="!portfolios.length">
+      <div class="row" ng-if="!portfolios.length && !stock_view">
         <a data-toggle="modal" data-target="#portfolio" class="clickable">Create a new Portfolio</a>
         <br/>
         <a href="/">Home</a>
+      </div>
+      <div ng-show="stock_view">
+        <button class="btn btn-success" ng-click="default_view()">Back</button>
+        <hr/>
+        <form class='form-inline'>
+          <div class="form-group">
+            <label>Date Range</label>
+            <select ng-model="stock_date" ng-change="get_stock_date_view(stock_view_holding[1],stock_date)">
+              <option value="Week">Week</option>
+              <option value="Month">Month</option>
+              <option value="Quarter">Quarter</option>
+              <option value="Year">Year</option>
+              <option value="5-year">5-Year</option>
+              <option value="10-year">10-Year</option>
+            </select>
+          </div>
+        </form>
+        <div id="myChart" style="width: 500px; height: 500px;"><!-- Plotly chart will be drawn inside this DIV --></div>
+        <div class="row" ng-if="stock_view">
+          <div class="col-md-12">
+            <h3>{{stock_view_holding[1]}}</h3><br>
+            <table class="table table-hover">
+              <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Open</th>
+                <th>High</th>
+                <th>Low</th>
+                <th>Close</th>
+                <th>Volume</th>
+              </tr>
+              <tr ng-repeat="row in stock_table">
+                <td>{{$index+1}}</td>
+                <td>{{row[1]*1000 | date:'MM/dd/yyyy'}}</td>
+                <td>{{row[2] | currency}}</td>
+                <td>{{row[3] | currency}}</td>
+                <td>{{row[4] | currency}}</td>
+                <td>{{row[5] | currency}}</td>
+                <td>{{row[6]}}</td>
+              </tr>
+            </table>
+            <a class='clickable' ng-click="get_joint_view(stock_view_holding[1],stock_table.length + 10)">more</a>
+            <a style="float:right"class='clickable' ng-click="get_joint_view(stock_view_holding[1],stock_table.length - 10)" ng-if="stock_table.length > 10">less</a>
+            </div>
+        </div>
       </div>
     </div>
     <!-- Create New Portfolio -->

@@ -9,6 +9,7 @@ app.controller('overviewController', function($scope, $cookies, $http) {
 	$scope.user = $cookies.get("user");
 	// gets all user portfolios
 	$scope.sell_amount = 0;
+	$scope.stock_date = "Week";
 	get_user_portfolios();
 	$scope.logout = function () {
 		$cookies.remove("login");
@@ -131,6 +132,93 @@ app.controller('overviewController', function($scope, $cookies, $http) {
 			alert(data.data.result);
 		});
 	}
+	$scope.show_stock = function (holding) {
+		$scope.stock_view = true;
+		$scope.stock_view_holding = holding;
+		$scope.get_stock_date_view(holding[1],$scope.stock_date);
+	}
+	$scope.get_stock_date_view = function (holding, date) {
+		var ltime = 0;
+		var htime = Math.floor((new Date()).getTime()/1000);
+		var temp = new Date();
+        switch(date) {
+		    case 'Week':
+		    	ltime = temp.setDate(temp.getDate() - temp.getDay());
+		    	ltime = Math.floor(ltime/1000);
+		        break;
+		    case 'Month':
+		        ltime  = new Date(temp.getFullYear(), temp.getMonth(), 0);
+		        ltime = Math.floor(ltime.getTime()/1000);
+		        break;
+		    case 'Quarter':
+		    	var quarter = temp.getMonth();
+		    	if (0<=quarter && quarter<=2) {
+		    		ltime  = new Date(temp.getFullYear(), 0, 0);
+		    	} else if (3<=quarter && quarter<=5) {
+		    		ltime  = new Date(temp.getFullYear(), 3, 0);
+		    	} else if (6<=quarter && quarter<=8) {
+		    		ltime  = new Date(temp.getFullYear(), 6, 0);
+		    	} else {
+		    		ltime  = new Date(temp.getFullYear(), 9, 0);
+		    	}
+		    	ltime = Math.floor(ltime.getTime()/1000);
+		    	break;
+		    case 'Year':
+		    	ltime = new Date(temp.getFullYear(),0,0);
+		    	ltime = Math.floor(ltime.getTime()/1000);
+		    	break;
+		    case '5-year':
+		    	ltime = new Date(temp.getFullYear()-5,0,0);
+		    	ltime = Math.floor(ltime.getTime()/1000);
+		    	break;
+		    case '10-year':
+		    	ltime = new Date(temp.getFullYear()-10,0,0);
+		    	ltime = Math.floor(ltime.getTime()/1000);
+		    	break;
+		    default:
+		    	ltime = new Date(temp.getFullYear()-10,0,0);
+		    	ltime = Math.floor(ltime.getTime()/1000);
+		}
+		var req = {
+			request: "get_stock_information",
+			symbol: holding,
+			ltime: ltime,
+			htime: htime
+		}
+		$http.post("/proxy",req)
+		.then(function(data){
+			$scope.stock_table = data.data;
+			var x = [];
+			var y = [];
+			$scope.stock_table.forEach(function(data){
+				x.push(new Date(data[1]*1000));
+				y.push(data[5]);
+			})
+			var trace1 = {
+			  x: x,
+			  y: y,
+			  type: 'scatter'
+			};
+
+			var data = [trace1];
+
+			Plotly.newPlot('myChart', data);
+		})
+	}
+	$scope.get_joint_view = function (holding, rownum) {
+		var req = {
+			request: "get_top_stock_information",
+			symbol: holding,
+			rownum: rownum
+		}
+		$http.post("/proxy",req)
+		.then(function(data){
+			$scope.stock_table = data.data;
+		})
+	}
+	$scope.default_view = function () {
+		$scope.stock_view = false;
+	}
 	function get_user_portfolios () {
 		var req = {
 			request: "find_all_user_portfolios",
@@ -158,6 +246,14 @@ app.controller('overviewController', function($scope, $cookies, $http) {
 							var temp = data.data.split("/")
 							temp = JSON.parse(temp[2]);
 							second.push(parseFloat(temp[0].l));
+						}
+					});
+				})
+				.then(function(){
+					$scope.present_value = 0;
+					$scope.holdings.forEach(function(item){
+						if (item[4]) {
+							$scope.present_value += item[3]*item[4];
 						}
 					})
 				})
