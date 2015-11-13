@@ -11,6 +11,25 @@ app.controller('overviewController', function($scope, $cookies, $http) {
 	$scope.sell_amount = 0;
 	$scope.stock_date = "Week";
 	get_user_portfolios();
+	if ($cookies.getObject("stock")){
+		$scope.automation_tool = true;
+		a = $cookies.getObject("stock");
+		var date1 = new Date();
+		var date2 = new Date(a.date);
+		var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+		var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+		if (diffDays == 0) {
+			$cookies.remove("stock");
+			console.log("Strategy finished");
+		} else if (diffDays == a.days) {
+			a.days -= 1;
+			$cookies.putObject("stock",a);
+			setTimeout(function(){
+				shannon_ratchet();
+			}, 3000);
+		}
+	}
+	
 	$scope.logout = function () {
 		$cookies.remove("login");
 		$cookies.remove("user");
@@ -261,6 +280,64 @@ app.controller('overviewController', function($scope, $cookies, $http) {
 		} else {
 			alert('Need more inputs');
 		}
+	}
+	$scope.automation = function (stock_option,stock_automation_date) {
+		if ($cookies.getObject("stock")){
+			alert("There is an existing automation strategy.");
+		} else {
+			var temp = new Date();
+			var days;
+			if (stock_automation_date == 'Day'){
+				temp.setDate(temp.getDate()+1);
+				days = 1;
+			} else if (stock_automation_date == 'Week'){
+				temp.setDate(temp.getDate()+7);
+				days = 7;
+			} else if (stock_automation_date == 'Month'){
+				temp.setMonth(temp.getMonth()+1);
+				days = 30;
+			}
+			var automate = {
+				date: temp,
+				stock: stock_option,
+				days: days
+			}
+			$cookies.putObject("stock",automate);
+			$scope.automation_tool = true;
+			shannon_ratchet();
+			alert("Automation Created");
+		}
+	}
+	$scope.delete_automation = function () {
+		$cookies.remove("stock");
+		$scope.automation_tool = false;
+		alert("Automation Deleted");
+	}
+	function shannon_ratchet () {
+		var a_stock = $cookies.getObject("stock");
+		var stock = a_stock.stock;
+		var cash_value = $scope.portfolios[$scope.index][2];
+		var market;
+		var shares;
+		$scope.holdings.forEach(function(data){
+			if (data[1] == stock) {
+				market = data[4];
+				shares = data[3];
+			}
+		});
+		var total = market * shares;
+		if (cash_value > total) {
+			var dividend = (cash_value - total) /2;
+			shares = Math.floor(dividend / market);
+			$scope.get_quantity($scope.portfolios[$scope.index][0],stock);
+			setTimeout(function(){
+				$scope.buy_stock(shares,market,$scope.portfolios[$scope.index][0],stock);
+			}, 2000);
+		} else {
+			var dividend = (total-cash_value) /2;
+			shares = Math.floor(dividend / market);
+			$scope.sell_stock(shares,market,$scope.portfolios[$scope.index][0],stock);
+		}		
 	}
 	function get_user_portfolios () {
 		var req = {

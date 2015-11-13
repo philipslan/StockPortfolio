@@ -82,6 +82,7 @@
 
               <div role='tabpanel' class='tab-pane' id='overview' ng-if="view=='overview'">
                 <h4>Present Value: {{portfolio[2] + present_value | currency}}</h4>
+                <h5 ng-show="$parent.automation_tool">Automation Tool On</h5>
                 <hr/>
                 <h5>Cash Balance: {{portfolio[2] | currency}}</h5>
                 <h5>Holdings:</h5>
@@ -144,6 +145,30 @@
                   <button type="submit" class="btn btn-primary" ng-click="deposit(portfolio[0],cash_update)">Deposit</button>
                   <button type="submit" class="btn btn-primary" ng-click="withdraw(portfolio[0],cash_update)">Withdraw</button>
                 </form>
+              </div>
+
+              <div role='tabpanel' class='tab-pane' id='strategy' ng-if="view=='strategy'">
+                <div style="margin-left:10px;">
+                  <h4>Trading Strategy</h4>
+                  <form>
+                    <h5>Automate Shannon Ratchet on</h5>
+                    <br/>
+                    <div>
+                      <select ng-model="stock_option" class="form-control" style="width:200px"> 
+                        <option ng-repeat="holding in holdings" value="{{holding[1]}}">{{holding[1]}}</option>
+                      </select>
+                      <h5>Length</h5>
+                      <select ng-model="stock_automation_date" class="form-control" style="width:200px"> 
+                        <option value="Day">Day</option>
+                        <option value="Week">Week</option>
+                        <option value="Month">Month</option>
+                      </select>
+                    </div>
+                    <br/>
+                    <button type="submit" class="btn btn-default" ng-click="automation(stock_option,stock_automation_date)">Submit</button>
+                    <button type="submit" class="btn btn-default" ng-click="delete_automation()">Delete Automation</button>
+                  </form>
+                </div>
               </div>
 
               <div role='tabpanel' class='tab-pane' id='update_stock' ng-if="view=='update_stock'">
