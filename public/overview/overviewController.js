@@ -339,6 +339,13 @@ app.controller('overviewController', function($scope, $cookies, $http) {
 			$scope.sell_stock(shares,market,$scope.portfolios[$scope.index][0],stock);
 		}		
 	}
+	$scope.performance_selected = function () {
+		$scope.performance_holdings = JSON.parse(JSON.stringify($scope.holdings));
+		var str = "";
+		$scope.performance_holdings.forEach(function(data){
+			str += "'" + data[1] + "'";
+		})
+	}
 	function get_user_portfolios () {
 		var req = {
 			request: "find_all_user_portfolios",

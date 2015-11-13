@@ -1,0 +1,32 @@
+## Sign-Up
+"insert into portfolio_users (username, password, email) values ('%s','%s','%s')" % ('username','password','email')
+## Login
+"select count(*) from portfolio_users where username='%s' and password='%s'" % ('username','password')
+## Insert into Portfolio
+"insert into portfolio (name,cash_amnt,owner) values ('%s',%f,'%s')" % ('name','cash_amnt','owner')
+## Find_all_user_portfolios
+"select * from portfolio where owner='%s'" % ('owner')
+## Find_all_portfolio_holdings'
+"select * from holdings where portfolio_id = %d" % ('portfolio_id'))
+## Find_portfolio_holding
+"select * from holdings where portfolio_id = %d and symbol= '%s'" % ('portfolio_id', 'symbol')
+## Create_holding
+"insert into holdings (portfolio_id,symbol,timestamp,amount) values (%d,'%s',%d,%d)" % ('portfolio_id','symbol','timestamp','amount')
+## Update_holding
+"update holdings set amount= amount + %d, timestamp=%d where portfolio_id=%d and symbol='%s'" % ('amount','timestamp','portfolio_id','symbol')
+## Deposit_portfolio_cash_amnt
+"update portfolio set cash_amnt= cash_amnt + %f where id=%d" % ('amnt', 'id')
+## Withdraw_portfolio_cash_amnt
+"update portfolio set cash_amnt= cash_amnt - %f where id=%d" % ('amnt', 'id')
+## Insert New Stock
+"insert into new_stocks (symbol,timestamp,open,high,low,close,volume) values ('%s',%d,%f,%f,%f,%f,%d)" % (symbol,timestamp,openf,high,low,close,volume)
+## Get_top_stock_information
+"select * from (select * from stocks where symbol='%s' order by timestamp desc) where rownum <= %d" % ('symbol', 'rownum')
+## Get_stock_information
+"select * from (select * from stocks where symbol='%s' and timestamp >=%d and timestamp <=%d order by timestamp desc)" % ('symbol','ltime','htime')
+## Get COV
+"select stddev(close)/avg(close) \"COV\" from stocks where symbol='%s' and timestamp>%d" % ('symbol','timestamp')
+## Get_covariance
+"select stddev(close)/avg(close) \"covariance\" from stocks where symbol='%s' or symbol='%s' and timestamp>%d" % ('symbol1','symbol2','timestamp')
+## Get_beta
+"select stddev(close)/avg(close) \"Beta\" from stocks where symbol in (%s);" % ('symbols','timestamp')
