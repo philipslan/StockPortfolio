@@ -132,10 +132,11 @@ elif os.environ['REQUEST_METHOD'] == 'POST':
 		result = request(sql,"query")
 		print json.dumps(result)
 	if requestval == 'get_covariance':
-		sql = "select stddev(close)/avg(close) \"covariance\" from stocks where symbol='%s' or symbol='%s' and timestamp>%d" % (form['symbol1'].value,form['symbol2'],int(form['timestamp'].value))
+		sql = "select stddev(close)/avg(close) \"covariance\" from stocks where symbol='%s' or symbol='%s' and timestamp>%d" % (form['symbol1'].value,form['symbol2'].value,int(form['timestamp'].value))
 		result = request(sql,"query")
 		print json.dumps(result)
 	if requestval == 'get_beta':
-		sql = "select stddev(close)/avg(close) \"Beta\" from stocks where symbol in (%s);" % (form['symbols'].value,form['timestamp'])
+		sql = "select stddev(close)/avg(close) \"Beta\" from stocks where symbol in (%s) and timestamp>%d" % (form['symbols'].value,int(form['timestamp'].value))
 		result = request(sql,"query")
 		print json.dumps(result)
+		

@@ -174,8 +174,16 @@
               <div role='tabpanel' class='tab-pane' id='performance' ng-if="view=='performance'">
                 <div style="margin-left:10px;">
                   <h4>Performance</h4>
-                    <h5>Portfolio Beta:</h5>
-                    <table class="table table-hover" ng-if="holdings.length">
+                    <h5>Portfolio Beta: {{beta}}</h5>
+                    <select ng-model="performance_date" ng-change="performance_date_changes(performance_date)">
+                      <option value="Week">Week</option>
+                      <option value="Month">Month</option>
+                      <option value="Quarter">Quarter</option>
+                      <option value="Year">Year</option>
+                      <option value="5-year">5-Year</option>
+                      <option value="10-year">10-Year</option>
+                    </select>
+                    <table class="table table-hover" ng-if="performance_holdings.length">
                       <tr>
                         <th>#</th>
                         <th>Symbol</th>
@@ -183,12 +191,22 @@
                         <th>Shares</th>
                         <th>Coefficient of Variation</th>
                       </tr>
-                      <tr class='clickable' ng-repeat="holding in holdings" ng-click="show_stock(holding)">
+                      <tr class='clickable' ng-repeat="holding in performance_holdings" ng-click="show_stock(holding)">
                         <td>{{$index+1}}</td>
                         <td><a>{{holding[1]}}</a></td>
                         <td>{{holding[4] | currency}}</td>
                         <td>{{holding[3]}}</td>
-                        <td>1</td>
+                        <td>{{holding[5]}}</td>
+                      </tr>
+                    </table>
+                    <table class="table table-hover">
+                      <tr>
+                        <th ng-repeat="holding in performance_holdings">{{holding[1]}}</th>
+                      </tr>
+                      <tr ng-repeat="co in covariance">
+                        <td>{{co[0]}}</td>
+                        <td>{{co[1]}}</td>
+                        <td>{{co[2]}}</td>
                       </tr>
                     </table>
                 </div>

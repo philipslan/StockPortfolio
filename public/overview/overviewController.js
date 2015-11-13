@@ -341,10 +341,147 @@ app.controller('overviewController', function($scope, $cookies, $http) {
 	}
 	$scope.performance_selected = function () {
 		$scope.performance_holdings = JSON.parse(JSON.stringify($scope.holdings));
-		var str = "";
+		var str = [];
 		$scope.performance_holdings.forEach(function(data){
-			str += "'" + data[1] + "'";
+			str.push(data[1]);
 		})
+		var total = "'"
+		total += str.join("','");
+		total += "'";
+		var time = $scope.performance_changes("Week");
+		var req = {
+			request: "get_beta",
+			symbols: total,
+			timestamp: time
+		}
+		$http.post("/proxy",req)
+		.then(function(data){
+			$scope.beta = data.data[0][0];
+		});
+		var all_cov = [];
+		$scope.performance_holdings.forEach(function(data){
+			var req1 = {
+				request: "COV",
+				symbol: data[1],
+				timestamp: time
+			}
+			$http.post("/proxy",req1)
+			.then(function(data1){
+				all_cov.push([data[1], data1.data[0][0]]);
+			})
+		});
+		setTimeout(function(){
+			var index = 0;
+			for (var i=0; i<all_cov.length; i++) {
+				for (var j=0; j<$scope.performance_holdings.length; j++) {
+					if ($scope.performance_holdings[j][1] == all_cov[i][0]) {
+						$scope.performance_holdings[j][5] = all_cov[i][1];
+					}
+				}
+			}
+			$scope.$apply();
+		},500);
+		var temp = [];
+		for (var i=0; i<$scope.performance_holdings; i++) {
+			for (var j=0; j<$scope.performance_holdings; j++) {
+				var req = {
+					request: "get_covariance",
+					symbol1: $scope.performance_holdings[i][1],
+					symbol2: $scope.performance_holdings[j][1],
+					timestamp: time
+				}
+				$http.post("/proxy",req)
+				.then(function(data){
+					temp.push([req.symbol1, req.symbol2, data.data[0][0]])
+				})
+			}
+		}
+		$scope.covariance = [];
+	}
+	$scope.performance_date_changes = function (date) {
+		var str = [];
+		$scope.performance_holdings.forEach(function(data){
+			str.push(data[1]);
+		})
+		var total = "'";
+		total += str.join("','");
+		total += "'";
+		var time = $scope.performance_changes(date);
+		var req = {
+			request: "get_beta",
+			symbols: total,
+			timestamp: time
+		}
+		$http.post("/proxy",req)
+		.then(function(data){
+			$scope.beta = data.data[0][0];
+		});
+		var all_cov = [];
+		$scope.performance_holdings.forEach(function(data){
+			var req1 = {
+				request: "COV",
+				symbol: data[1],
+				timestamp: time
+			}
+			$http.post("/proxy",req1)
+			.then(function(data1){
+				all_cov.push([data[1], data1.data[0][0]]);
+			})
+		});
+		setTimeout(function(){
+			var index = 0;
+			for (var i=0; i<all_cov.length; i++) {
+				for (var j=0; j<$scope.performance_holdings.length; j++) {
+					if ($scope.performance_holdings[j][1] == all_cov[i][0]) {
+						$scope.performance_holdings[j][5] = all_cov[i][1];
+					}
+				}
+			}
+			$scope.$apply();
+		},500);
+	}
+	$scope.performance_changes = function (date) {
+		var ltime = 0;
+		var temp = new Date();
+		switch(date) {
+		    case 'Week':
+		    	ltime = temp.setDate(temp.getDate() - temp.getDay());
+		    	ltime = Math.floor(ltime/1000);
+		        break;
+		    case 'Month':
+		        ltime  = new Date(temp.getFullYear(), temp.getMonth(), 0);
+		        ltime = Math.floor(ltime.getTime()/1000);
+		        break;
+		    case 'Quarter':
+		    	var quarter = temp.getMonth();
+		    	if (0<=quarter && quarter<=2) {
+		    		ltime  = new Date(temp.getFullYear(), 0, 0);
+		    	} else if (3<=quarter && quarter<=5) {
+		    		ltime  = new Date(temp.getFullYear(), 3, 0);
+		    	} else if (6<=quarter && quarter<=8) {
+		    		ltime  = new Date(temp.getFullYear(), 6, 0);
+		    	} else {
+		    		ltime  = new Date(temp.getFullYear(), 9, 0);
+		    	}
+		    	ltime = Math.floor(ltime.getTime()/1000);
+		    	break;
+		    case 'Year':
+		    	ltime = new Date(temp.getFullYear(),0,0);
+		    	ltime = Math.floor(ltime.getTime()/1000);
+		    	break;
+		    case '5-year':
+		    	ltime = new Date(temp.getFullYear()-5,0,0);
+		    	ltime = Math.floor(ltime.getTime()/1000);
+		    	break;
+		    case '10-year':
+		    	ltime = new Date(temp.getFullYear()-10,0,0);
+		    	ltime = Math.floor(ltime.getTime()/1000);
+		    	break;
+		    default:
+		    	ltime = new Date(temp.getFullYear()-10,0,0);
+		    	ltime = Math.floor(ltime.getTime()/1000);
+		}
+		return ltime;
 	}
 	function get_user_portfolios () {
 		var req = {
