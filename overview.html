@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Portfolio Manager</title>
+
+    <!-- CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/portfolio.css" rel="stylesheet">
+
+    <!-- Javascript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="js/portfolio.js"></script>
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="welcome"><h5>Welcome, tinashin17!</h5></li>
+            <li><button class="btn btn-success" >Sign Out</button></li>
+          </ul>
+
+        </nav>
+        <h4 class="text-muted"><a href="home.html">EECS339: Portfolio Manager</a></h4>
+      </div>
+
+      <div class="container">
+        <div class='row'>
+
+          <div class="col-md-3">
+            <br><br>
+              <ul id="pillTabs" class="nav nav-pills nav-stacked" role="tablist">
+                  <li class="active"><a href="#overview" role="tab">Overview</a></li>
+                  <li><a href="performance.html" role="tab">Performance</a></li>
+                  <li><a href="transaction.html" role="tab">Transaction</a></li>
+                  <li><a href="strategy.html" role="tab">Strategy</a></li>
+              </ul>
+          </div>
+
+          <div class="col-md-9">
+              <ul id="myTabs"class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#portfolio1" role="tab" data-toggle="tab">Portfolio 1</a></li>
+                <li role="presentation"><a href="#portfolio2" role="tab" data-toggle="tab">Portfolio 2</a></li>
+                <li role="presentation"><a href="#add" role="tab" data-toggle="tab">Add Portfolio</a></li>
+              </ul>
+
+              <!-- Overview in Portfolio1 -->
+
+              <div class="tab-content folder">
+                <div role="tabpanel" class="tab-pane fade in active" id="portfolio1">
+
+                  <div role='tabpanel' class='tab-pane fade in active' id='overview'>
+                    <h5>Cash Balance:</h5>
+                    <h5>Holdings:</h5>
+                    <table class="table table-hover">
+                      <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Symbol</th>
+                        <th>Present Value</th>
+                        <th>Shares</th>
+                      </tr>
+                      <tr class='clickable' data-href='stock.html'>
+                        <td>1</td>
+                        <td>Apple</td>
+                        <td>AAPL</td>
+                        <td>94.95</td>
+                        <td>100</td>
+                      </tr>
+                    </table>
+                    <br>
+                  </div>
+
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="portfolio2">
+                  
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="add">
+                  
+                </div>
+              </div>
+          </div>
+
+        </div>
+      </div>
+           
+
+
+      <footer class="footer">
+        <p>&copy;Philip Lan, Tina Shin</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>
